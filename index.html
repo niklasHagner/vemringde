@@ -36,7 +36,7 @@
   </head>
   <body>
     <h1>Slå up telefonnummer</h1>
-    <p>Kolla ett nummer hos vemringde, missatsamtal, eniro och hitta - samtidigt</p>
+    <p>Kolla ett nummer hos missatsamtal, eniro och hitta - samtidigt</p>
     <p>Sök via formuläret eller queryparametern <code>number</code></p>
     <form>
       <input id="number" type="text" value="112">
@@ -47,7 +47,6 @@
       <iframe class="eniro" src="#" sandbox=""></iframe>
       <iframe class="hitta" src="#" sandbox=""></iframe>
       <iframe class="missatsamtal" src="#" sandbox=""></iframe>
-      <iframe class="vemringde" src="#" sandbox=""></iframe>
     </section>
 
     <script type="text/javascript">
@@ -63,7 +62,6 @@
         const eniro = document.querySelector(".eniro");
         const hitta = document.querySelector(".hitta");
         const missatsamtal = document.querySelector(".missatsamtal");
-        const vemringde = document.querySelector(".vemringde");
 
         document.querySelector("#search-button").addEventListener("click", search);
         loadIframes(phoneNumber);
@@ -82,7 +80,6 @@
           eniro.src = `https://www.eniro.se/${phoneNumber}/företag`;
           hitta.src = `https://www.hitta.se/s%C3%B6k?vad=${phoneNumber}`;
           missatsamtal.src = `https://missatsamtal.se/${phoneNumber}/`;
-          vemringde.src = `https://vemringde.se/?q=${phoneNumber}`;
       }
     }
 
