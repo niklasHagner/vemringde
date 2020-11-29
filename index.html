@@ -6,7 +6,6 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <title>Telefonnummer-kollen</title>
     <style>
-          
       body {
         font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
         font-size: 16px;
@@ -16,76 +15,73 @@
         margin: 20px auto;
         color: #E0E0E0;
         text-align: center;
-      }
-
-      .iframes {
-        display: grid;
-        grid-gap: 10px;
-        grid-template-columns: 1fr 1fr 1fr 1fr;
-      }
-
-      iframe {
-        width: 33vw;
-        min-height: 600px;
-        height: 100vh;
+        min-width: 0;
       }
 
       form {
         margin-bottom: 10px;
       }
+
+      .iframes {
+        display: grid;
+        gap: 20px;
+        grid-template-columns: 1fr 1fr 1fr;
+        max-width: 98vw;
+        margin: 0 auto;
+      }
+
+      iframe {
+        width: 100%;
+        height: 100vh;
+        min-height: 600px;
+        background-color: white;
+      }
     </style>
   </head>
   <body>
-    <h1>Slå up telefonnummer</h1>
-    <p>Kolla ett nummer hos missatsamtal, eniro och hitta - samtidigt</p>
-    <p>Sök via formuläret eller queryparametern <code>number</code></p>
+    <h1>Kolla upp ett telefon-nummer</h1>
+    <p>hos eniro, hitta och missatsamtal - samtidigt</p>
     <form>
-      <input id="number" type="text" value="112">
+      <input id="number" type="text" value="0104795200">
       <button id="search-button" type="button">Search</button>
     </form>
 
     <section class="iframes">
-      <iframe class="eniro" src="#" sandbox=""></iframe>
       <iframe class="hitta" src="#" sandbox=""></iframe>
       <iframe class="missatsamtal" src="#" sandbox=""></iframe>
+      <!-- eniro iframe crashes unless sandboxed -->
+      <iframe class="eniro" src="#" sandbox=""></iframe> 
     </section>
 
     <script type="text/javascript">
-    function main() {
-        const phoneNumberParam = new URLSearchParams(document.location.search.substring(1)).get("number");
-        const phoneNumberInputValue = getInputValueAsPureNumber();
-        const phoneNumber = phoneNumberParam || phoneNumberInputValue;
-
-        if (phoneNumber !== phoneNumberInputValue) {
-          document.querySelector("#number").value = phoneNumber;
-        }
-        
-        const eniro = document.querySelector(".eniro");
-        const hitta = document.querySelector(".hitta");
-        const missatsamtal = document.querySelector(".missatsamtal");
-
-        document.querySelector("#search-button").addEventListener("click", search);
-        loadIframes(phoneNumber);
-
-        function getInputValueAsPureNumber() {
-          return document.querySelector("#number").value.replace(/[^0-9]/g, '');
-        }
-
-        function search() {
-          const value = getInputValueAsPureNumber();
-          loadIframes(value);
-        }
-
-        function loadIframes(phoneNumber) {
+      
+      function main() {
+          const phoneNumberInputValue = getInputValueAsPureNumber();
           
-          eniro.src = `https://www.eniro.se/${phoneNumber}/företag`;
-          hitta.src = `https://www.hitta.se/s%C3%B6k?vad=${phoneNumber}`;
-          missatsamtal.src = `https://missatsamtal.se/${phoneNumber}/`;
-      }
-    }
+          const eniro = document.querySelector(".eniro");
+          const hitta = document.querySelector(".hitta");
+          const missatsamtal = document.querySelector(".missatsamtal");
 
-    
-    document.addEventListener("DOMContentLoaded", main, false);
+          document.querySelector("#search-button").addEventListener("click", search);
+          search();
+
+          function getInputValueAsPureNumber() {
+            return document.querySelector("#number").value.replace(/[^0-9]/g, '');
+          }
+
+          function search() {
+            const value = getInputValueAsPureNumber();
+            loadIframes(value);
+          }
+
+          function loadIframes(phoneNumber) {
+            eniro.src = `https://www.eniro.se/${phoneNumber}/företag`;
+            hitta.src = `https://www.hitta.se/s%C3%B6k?vad=${phoneNumber}`;
+            missatsamtal.src = `https://missatsamtal.se/${phoneNumber}/`;
+        }
+      }
+
+      document.addEventListener("DOMContentLoaded", main, false);
     </script>
   </body>
 </html>
