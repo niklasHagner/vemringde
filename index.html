@@ -56,17 +56,21 @@
     <script type="text/javascript">
       
       function main() {
-          const phoneNumberInputValue = getInputValueAsPureNumber();
-          
           const eniro = document.querySelector(".eniro");
           const hitta = document.querySelector(".hitta");
           const missatsamtal = document.querySelector(".missatsamtal");
-
+          const numberInput = document.querySelector("#number");
+          const phoneNumberInputValue = getInputValueAsPureNumber();
+          
           document.querySelector("#search-button").addEventListener("click", search);
+          document.querySelector("form").addEventListener("submit", (e) => { 
+            e.preventDefault();
+            search(); 
+          });
           search();
 
           function getInputValueAsPureNumber() {
-            return document.querySelector("#number").value.replace(/[^0-9]/g, '');
+            return numberInput.value.replace(/[^0-9]/g, '');
           }
 
           function search() {
